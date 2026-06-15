@@ -10,7 +10,7 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { Activity, AlertTriangle, CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
-import { getUpdateStatus, getUpdateLogs, type UpdateStatus } from '../services/updateService';
+import { getUpdateStatus, getUpdateLogs, type UpdateStatus } from '../../services/updateService';
 
 // ===== 健康状态类型 =====
 
