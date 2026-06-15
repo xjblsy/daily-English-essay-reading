@@ -21,10 +21,22 @@ const localStorageMock = (() => {
 
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
+// Mock fetch to fail immediately (no network delay)
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
+
 describe('updateService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorageMock.clear();
+    // 让 fetch 立即失败，跳过网络请求
+    mockFetch.mockRejectedValue(new Error('Network unavailable'));
+    // 使用假定时器，让重试延迟瞬间完成
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   describe('getUpdateStatus - 默认状态', () => {
@@ -53,14 +65,16 @@ describe('updateService', () => {
   });
 
   describe('performDailyUpdate - 基本行为（降级模式）', () => {
-    // 注意：此测试使用真实的 fallback 数据，不触发 API 调用
-    // 因为 fetch 会被拒绝，服务会自动降级到内置数据
-
     it(
       '应该返回包含论文、视频和阅读材料的推荐数据',
-      { timeout: 60000 },
       async () => {
-        const result = await performDailyUpdate();
+        // 启动异步操作
+        const promise = performDailyUpdate();
+
+        // 推进所有定时器（重试延迟会瞬间完成）
+        await vi.advanceTimersByTimeAsync(60000);
+
+        const result = await promise;
 
         // 验证返回结构完整
         expect(result).toHaveProperty('success');
@@ -68,7 +82,7 @@ describe('updateService', () => {
         expect(result).toHaveProperty('status');
         expect(result).toHaveProperty('usedFallback');
 
-        // 验证推荐数据非空
+        // 验证推荐数据非空（降级到 fallback 数据）
         expect(result.recommendations.papers.length).toBeGreaterThan(0);
         expect(result.recommendations.videos.length).toBeGreaterThan(0);
         expect(result.recommendations.readings.length).toBeGreaterThan(0);
@@ -84,9 +98,11 @@ describe('updateService', () => {
 
     it(
       '自定义数量应正确截断数据',
-      { timeout: 60000 },
       async () => {
-        const result1 = await performDailyUpdate({ paperCount: 1, videoCount: 1 });
+        const promise1 = performDailyUpdate({ paperCount: 1, videoCount: 1 });
+        await vi.advanceTimersByTimeAsync(60000);
+        const result1 = await promise1;
+
         expect(result1.recommendations.papers.length).toBeLessThanOrEqual(1);
         expect(result1.recommendations.videos.length).toBeLessThanOrEqual(1);
       }
@@ -96,9 +112,10 @@ describe('updateService', () => {
   describe('performDailyUpdate - 持久化验证', () => {
     it(
       '更新后应写入 localStorage',
-      { timeout: 60000 },
       async () => {
-        await performDailyUpdate();
+        const promise = performDailyUpdate();
+        await vi.advanceTimersByTimeAsync(60000);
+        await promise;
 
         // 应该写入了更新状态
         const setStatusCalls = localStorageMock.setItem.mock.calls.filter(
