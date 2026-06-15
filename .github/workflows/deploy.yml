@@ -39,7 +39,9 @@ jobs:
         run: npm run check
 
       - name: Run unit & integration tests
-        run: npx vitest run --reporter=verbose --coverage
+        run: npx vitest run --reporter=verbose
+        env:
+          CI: true
 
       - name: Upload coverage report
         if: always()
