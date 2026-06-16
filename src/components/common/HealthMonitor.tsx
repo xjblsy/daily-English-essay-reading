@@ -46,7 +46,7 @@ async function checkApiConnectivity(): Promise<{ reachable: boolean; latencyMs: 
     const timeout = setTimeout(() => controller.abort(), 5000);
 
     // 使用 HEAD 请求检测 arXiv API 可达性
-    const response = await fetch('http://export.arxiv.org/api/query?search_query=test&max_results=1', {
+    const response = await fetch('https://export.arxiv.org/api/query?search_query=test&max_results=1', {
       method: 'GET',
       signal: controller.signal,
       mode: 'no-cors',

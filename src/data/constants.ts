@@ -13,7 +13,7 @@ export const ARXIV_KEYWORDS = [
 ];
 
 // arXiv API 配置
-export const ARXIV_API_BASE = 'http://export.arxiv.org/api/query';
+export const ARXIV_API_BASE = 'https://export.arxiv.org/api/query';
 export const ARXIV_MAX_RESULTS = 10;
 
 // Nature Briefing RSS

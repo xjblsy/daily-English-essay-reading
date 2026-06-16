@@ -13,7 +13,7 @@ import { HealthMonitorPanel } from './components/common/HealthMonitor';
 export default function App() {
   return (
     <HealthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
