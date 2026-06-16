@@ -14,6 +14,7 @@ import { mockVideos } from '../data/mockVideos';
 import { mockReadings } from '../data/mockReadings';
 import { ARXIV_KEYWORDS, ARXIV_API_BASE, ARXIV_MAX_RESULTS, CORS_PROXY } from '../data/constants';
 import { getFromStorage, setToStorage } from '../utils/storage';
+import type { UserSettings } from '../types';
 
 // ===== 日志系统 =====
 
@@ -180,6 +181,12 @@ function categorizePaper(term: string): Paper['category'] {
   const lower = term.toLowerCase();
   if (lower.includes('nlp') || lower.includes('computation') || lower.includes('language')) return 'nlp';
   if (lower.includes('learning') || lower.includes('neural') || lower.includes('ai')) return 'ai';
+  if (lower.includes('data') || lower.includes('mining') || lower.includes('distributed')) return 'bigdata';
+  if (lower.includes('physics') || lower.includes('quantum') || lower.includes('particle')) return 'physics';
+  if (lower.includes('chemistry') || lower.includes('molecule') || lower.includes('reaction')) return 'chemistry';
+  if (lower.includes('math') || lower.includes('algebra') || lower.includes('geometry')) return 'mathematics';
+  if (lower.includes('philosophy') || lower.includes('history') || lower.includes('humanities')) return 'humanities';
+  if (lower.includes('art') || lower.includes('creativity') || lower.includes('music')) return 'art';
   return 'bigdata';
 }
 
@@ -208,9 +215,24 @@ async function fetchSingleKeyword(keyword: string): Promise<Paper[]> {
 async function fetchAllPapersWithRetry(): Promise<Paper[]> {
   const allPapers: Paper[] = [];
   const seenTitles = new Set<string>();
-  const keywords = ARXIV_KEYWORDS.slice(0, 3); // 取前3个关键词
 
-  addLogEntry('info', `Starting arXiv fetch for ${keywords.length} keywords`);
+  const settings = getFromStorage<UserSettings>('englearn_settings') || {
+    crossDomainEnabled: true,
+    crossDomainRatio: 0.2,
+  };
+
+  const keywords: string[] = [...ARXIV_KEYWORDS.primary];
+
+  if (settings.crossDomainEnabled) {
+    const crossDomainCount = Math.ceil(ARXIV_KEYWORDS.crossDomain.length * settings.crossDomainRatio);
+    const shuffled = [...ARXIV_KEYWORDS.crossDomain].sort(() => Math.random() - 0.5);
+    keywords.push(...shuffled.slice(0, crossDomainCount));
+  }
+
+  addLogEntry('info', `Starting arXiv fetch for ${keywords.length} keywords`, {
+    primaryCount: ARXIV_KEYWORDS.primary.length,
+    crossDomainCount: keywords.length - ARXIV_KEYWORDS.primary.length,
+  });
 
   for (const keyword of keywords) {
     try {
@@ -230,7 +252,6 @@ async function fetchAllPapersWithRetry(): Promise<Paper[]> {
       addLogEntry('error', `Failed to fetch keyword "${keyword}" after retries`, {
         error: error instanceof Error ? error.message : String(error),
       });
-      // 继续尝试下一个关键词，不中断整个流程
     }
   }
 

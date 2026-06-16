@@ -5,7 +5,7 @@ export interface Paper {
   authors: string;
   abstract: string;
   source: 'arxiv' | 'nature';
-  category: 'ai' | 'nlp' | 'bigdata';
+  category: 'ai' | 'nlp' | 'bigdata' | 'physics' | 'chemistry' | 'mathematics' | 'humanities' | 'art';
   url: string;
   publishedDate: string;
   isTodayNew: boolean;
@@ -13,7 +13,7 @@ export interface Paper {
 
 export interface PaperFilter {
   sources: ('arxiv' | 'nature')[];
-  categories: ('ai' | 'nlp' | 'bigdata')[];
+  categories: ('ai' | 'nlp' | 'bigdata' | 'physics' | 'chemistry' | 'mathematics' | 'humanities' | 'art')[];
   searchQuery: string;
 }
 
@@ -58,7 +58,9 @@ export interface HistoryRecord {
 }
 
 export interface UserSettings {
-  researchInterests: ('ai' | 'nlp' | 'bigdata')[];
+  researchInterests: ('ai' | 'nlp' | 'bigdata' | 'physics' | 'chemistry' | 'mathematics' | 'humanities' | 'art')[];
+  crossDomainEnabled: boolean;
+  crossDomainRatio: number;
   dailyPaperCount: number;
   dailyVideoCount: number;
   theme: 'dark';

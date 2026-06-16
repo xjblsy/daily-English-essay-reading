@@ -1,9 +1,21 @@
 // arXiv API 搜索关键词（AI/NLP/大数据领域）
-export const ARXIV_KEYWORDS = [
-  'artificial intelligence',
-  'natural language processing',
-  'machine learning',
-];
+export const ARXIV_KEYWORDS = {
+  primary: [
+    'artificial intelligence',
+    'natural language processing',
+    'machine learning',
+  ],
+  crossDomain: [
+    'physics',
+    'chemistry',
+    'mathematics',
+    'philosophy',
+    'history',
+    'artificial creativity',
+    'climate science',
+    'biology',
+  ],
+};
 
 // CORS 代理配置（解决浏览器跨域问题）
 export const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
@@ -35,6 +47,11 @@ export const CATEGORY_LABELS: Record<string, string> = {
   ai: 'Artificial Intelligence',
   nlp: 'Natural Language Processing',
   bigdata: 'Big Data',
+  physics: 'Physics',
+  chemistry: 'Chemistry',
+  mathematics: 'Mathematics',
+  humanities: 'Humanities',
+  art: 'Art',
   general: 'General English',
 };
 
@@ -66,6 +83,8 @@ export const NAV_ITEMS = [
 // 默认用户设置
 export const DEFAULT_SETTINGS: UserSettings = {
   researchInterests: ['ai', 'nlp', 'bigdata'],
+  crossDomainEnabled: true,
+  crossDomainRatio: 0.2,
   dailyPaperCount: 3,
   dailyVideoCount: 2,
   theme: 'dark',

@@ -51,7 +51,7 @@ export function categorizePaper(term: string): Paper['category'] {
     lower.includes('nlp') ||
     lower.includes('computation') ||
     lower.includes('language') ||
-    lower.includes('cl') // arXiv cs.CL category
+    lower.includes('cl')
   )
     return 'nlp';
   if (
@@ -59,10 +59,46 @@ export function categorizePaper(term: string): Paper['category'] {
     lower.includes('neural') ||
     lower.includes('ai') ||
     lower.includes('machine') ||
-    lower.includes('lg') || // arXiv cs.LG category
-    lower.includes('cv')   // arXiv cs.CV category
+    lower.includes('lg') ||
+    lower.includes('cv')
   )
     return 'ai';
+  if (
+    lower.includes('data') ||
+    lower.includes('mining') ||
+    lower.includes('distributed')
+  )
+    return 'bigdata';
+  if (
+    lower.includes('physics') ||
+    lower.includes('quantum') ||
+    lower.includes('particle')
+  )
+    return 'physics';
+  if (
+    lower.includes('chemistry') ||
+    lower.includes('molecule') ||
+    lower.includes('reaction')
+  )
+    return 'chemistry';
+  if (
+    lower.includes('math') ||
+    lower.includes('algebra') ||
+    lower.includes('geometry')
+  )
+    return 'mathematics';
+  if (
+    lower.includes('philosophy') ||
+    lower.includes('history') ||
+    lower.includes('humanities')
+  )
+    return 'humanities';
+  if (
+    lower.includes('art') ||
+    lower.includes('creativity') ||
+    lower.includes('music')
+  )
+    return 'art';
   return 'bigdata';
 }
 
@@ -92,8 +128,7 @@ export async function fetchAllPapers(): Promise<Paper[]> {
   const allPapers: Paper[] = [];
   const seenIds = new Set<string>();
 
-  // 取前3个关键词进行搜索，避免过多请求
-  for (const keyword of ARXIV_KEYWORDS.slice(0, 3)) {
+  for (const keyword of ARXIV_KEYWORDS.primary) {
     const papers = await fetchPapersFromArxiv(keyword);
     for (const paper of papers) {
       if (!seenIds.has(paper.title)) {
