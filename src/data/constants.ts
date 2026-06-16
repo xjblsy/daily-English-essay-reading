@@ -3,18 +3,17 @@ export const ARXIV_KEYWORDS = [
   'artificial intelligence',
   'natural language processing',
   'machine learning',
-  'large language model',
-  'deep learning',
-  'data mining',
-  'big data',
-  'neural network',
-  'transformer',
-  'NLP',
 ];
+
+// CORS 代理配置（解决浏览器跨域问题）
+export const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
 
 // arXiv API 配置
 export const ARXIV_API_BASE = 'https://export.arxiv.org/api/query';
-export const ARXIV_MAX_RESULTS = 10;
+export const ARXIV_MAX_RESULTS = 5;
+
+// 更新间隔（毫秒）- 改为 12 小时减少 API 请求
+export const UPDATE_INTERVAL_MS = 12 * 60 * 60 * 1000;
 
 // Nature Briefing RSS
 export const NATURE_RSS_URL = 'https://www.nature.com/briefing/daily/rss';

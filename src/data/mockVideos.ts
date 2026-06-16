@@ -1,12 +1,11 @@
 import type { Video } from '../types';
 
-// 精选听力视频数据
 export const mockVideos: Video[] = [
   {
     id: 'video-001',
     title: 'How AI Can Help Us Explore Nature\'s Mysteries - BBC Learning English',
     source: 'bbc',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    videoUrl: 'https://www.youtube.com/embed/XuC404a1Z1E',
     originalUrl: 'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2024',
     durationMinutes: 6,
     difficulty: 'intermediate',
@@ -17,7 +16,7 @@ export const mockVideos: Video[] = [
     id: 'video-002',
     title: 'The Future of Language Models - TED Talk',
     source: 'ted',
-    videoUrl: 'https://www.youtube.com/embed/Y8Nt2kKGaXM',
+    videoUrl: 'https://www.youtube.com/embed/2012Q476Xwk',
     originalUrl: 'https://www.ted.com/talks/the_future_of_language_models',
     durationMinutes: 15,
     difficulty: 'advanced',
@@ -28,7 +27,7 @@ export const mockVideos: Video[] = [
     id: 'video-003',
     title: 'IELTS Listening Practice: Academic Lecture on Data Science',
     source: 'ielts',
-    videoUrl: 'https://www.youtube.com/embed/JGQjFCLTsUM',
+    videoUrl: 'https://www.youtube.com/embed/82a9gHl9WdA',
     originalUrl: 'https://www.ielts.org/for-test-takers/sample-test-questions',
     durationMinutes: 20,
     difficulty: 'intermediate',
@@ -39,7 +38,7 @@ export const mockVideos: Video[] = [
     id: 'video-004',
     title: 'Understanding Neural Networks - BBC 6 Minute English',
     source: 'bbc',
-    videoUrl: 'https://www.youtube.com/embed/aircAruvnKk',
+    videoUrl: 'https://www.youtube.com/embed/YKjPI6no5n0',
     originalUrl: 'https://www.bbc.co.uk/learningenglish/english/features/6-minute-english',
     durationMinutes: 6,
     difficulty: 'beginner',
@@ -50,7 +49,7 @@ export const mockVideos: Video[] = [
     id: 'video-005',
     title: 'Teaching Computers to Understand Us - TED Talk',
     source: 'ted',
-    videoUrl: 'https://www.youtube.com/embed/tGOmSxqZYe4',
+    videoUrl: 'https://www.youtube.com/embed/pG4Q5Ut5e5w',
     originalUrl: 'https://www.ted.com/talks/teaching_computers_to_understand_us',
     durationMinutes: 12,
     difficulty: 'intermediate',
@@ -61,7 +60,7 @@ export const mockVideos: Video[] = [
     id: 'video-006',
     title: 'IELTS Listening: Technology in Modern Research',
     source: 'ielts',
-    videoUrl: 'https://www.youtube.com/embed/MpUuHmIHvJg',
+    videoUrl: 'https://www.youtube.com/embed/3UQ7Z9w2RrE',
     originalUrl: 'https://www.cambridge.org/ielts-practice-tests',
     durationMinutes: 18,
     difficulty: 'advanced',

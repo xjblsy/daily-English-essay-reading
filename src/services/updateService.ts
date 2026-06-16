@@ -12,7 +12,7 @@ import type { Paper, Video, ReadingMaterial, DailyRecommendations } from '../typ
 import { fallbackPapers } from '../data/mockPapers';
 import { mockVideos } from '../data/mockVideos';
 import { mockReadings } from '../data/mockReadings';
-import { ARXIV_KEYWORDS, ARXIV_API_BASE, ARXIV_MAX_RESULTS } from '../data/constants';
+import { ARXIV_KEYWORDS, ARXIV_API_BASE, ARXIV_MAX_RESULTS, CORS_PROXY } from '../data/constants';
 import { getFromStorage, setToStorage } from '../utils/storage';
 
 // ===== 日志系统 =====
@@ -188,9 +188,10 @@ function categorizePaper(term: string): Paper['category'] {
 async function fetchSingleKeyword(keyword: string): Promise<Paper[]> {
   const query = encodeURIComponent(`all:${keyword}`);
   const url = `${ARXIV_API_BASE}?search_query=${query}&start=0&max_results=${ARXIV_MAX_RESULTS}&sortBy=submittedDate&sortOrder=descending`;
+  const proxiedUrl = `${CORS_PROXY}${encodeURIComponent(url)}`;
 
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(15000), // 15秒超时
+  const response = await fetch(proxiedUrl, {
+    signal: AbortSignal.timeout(30000),
   });
 
   if (!response.ok) {
