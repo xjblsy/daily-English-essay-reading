@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import DashboardPage from './pages/DashboardPage';
 import PapersPage from './pages/PapersPage';
@@ -13,7 +13,7 @@ import { HealthMonitorPanel } from './components/common/HealthMonitor';
 export default function App() {
   return (
     <HealthProvider>
-      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<DashboardPage />} />
@@ -26,7 +26,7 @@ export default function App() {
             <Route path="monitor" element={<HealthMonitorPanel />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </HealthProvider>
   );
 }
